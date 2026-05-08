@@ -1,5 +1,4 @@
-\
-<!doctype html>
+\<!doctype html>
 <html lang="vi">
 <head>
     <meta charset="utf-8">
@@ -11,223 +10,197 @@
     <link rel="stylesheet" href="dist/css/adminlte.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <style>
-        .product-img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
-        }
-
-        .img-placeholder {
-            width: 80px;
-            height: 80px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .price-text {
-            color: #dc3545;
-            font-weight: bold;
-            font-size: 1.05rem;
-        }
-
-        .table td {
-            vertical-align: middle;
-        }
-
-        .product-name {
-            font-weight: 600;
-            color: #333;
-        }
+        .product-img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6; }
+        .img-placeholder { width: 80px; height: 80px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; }
+        .price-text { color: #dc3545; font-weight: bold; font-size: 1.05rem; }
+        .table td { vertical-align: middle; }
+        .product-name { font-weight: 600; color: #333; }
     </style>
 </head>
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
-    <div class="app-wrapper">
-        <!-- Header (giữ nguyên như cũ) -->
-        <!-- Sidebar (giữ nguyên) -->
-        <!-- Main Content -->
-        <main class="app-main">
-            <!-- Breadcrumb -->
-            <div class="app-content-header">...</div>
-            <div class="app-content">
-                <div class="container-fluid">
-                    <div class="card mb-4">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h3 class="card-title"><i class="bi bi-basket3 me-2"></i>Tất Cả Sản Phẩm <span class="badge bg-primary ms-2" id="productCount">0</span></h3>
-                            <button type="button" class="btn btn-primary" id="btnAddProduct"><i class="bi bi-plus-circle"></i> Thêm Sản Phẩm</button>
+<div class="app-wrapper">
+    <!-- Header (giữ nguyên như cũ) -->
+    <!-- Sidebar (giữ nguyên) -->
+    <!-- Main Content -->
+    <main class="app-main">
+        <!-- Breadcrumb -->
+        <div class="app-content-header">...</div>
+        <div class="app-content">
+            <div class="container-fluid">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3 class="card-title"><i class="bi bi-basket3 me-2"></i>Tất Cả Sản Phẩm <span class="badge bg-primary ms-2" id="productCount">0</span></h3>
+                        <button type="button" class="btn btn-primary" id="btnAddProduct"><i class="bi bi-plus-circle"></i> Thêm Sản Phẩm</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="productTable" class="table table-bordered table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr><th>#</th><th>Hình Ảnh</th><th>Tên Sản Phẩm</th><th>Giá</th><th>Mã SP</th><th>Thao Tác</th></tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="productTable" class="table table-bordered table-hover align-middle">
-                                    <thead class="table-light">
-                                        <tr><th>#</th><th>Hình Ảnh</th><th>Tên Sản Phẩm</th><th>Giá</th><th>Mã SP</th><th>Thao Tác</th></tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-                            <div id="emptyMessage" class="text-center p-5 text-muted d-none">
-                                <i class="bi bi-inbox" style="font-size: 60px;"></i>
-                                <p class="mt-3 fs-5">Chưa có sản phẩm nào!</p>
-                            </div>
+                        <div id="emptyMessage" class="text-center p-5 text-muted d-none">
+                            <i class="bi bi-inbox" style="font-size: 60px;"></i>
+                            <p class="mt-3 fs-5">Chưa có sản phẩm nào!</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
-        <!-- Footer -->
-        <!-- Modal (giữ nguyên cấu trúc, chỉ sửa script) -->
-    </div>
+        </div>
+    </main>
+    <!-- Footer -->
+    <!-- Modal (giữ nguyên cấu trúc, chỉ sửa script) -->
+</div>
 
-    <!-- Scripts -->
-    <script src="..."></script> <!-- đầy đủ các script như cũ -->
+<!-- Scripts -->
+<script src="..."></script> <!-- đầy đủ các script như cũ -->
 
-    <script>
-        $(function () {
-            // OverlayScrollbars...
+<script>
+$(function () {
+    // OverlayScrollbars...
 
-            let productList = [];
-            let editIndex = -1;
-            let dataTable = null;
+    let productList = [];
+    let editIndex = -1;
+    let dataTable = null;
 
-            function loadProducts() {
-                const data = localStorage.getItem('products');
-                if (data) {
-                    try { productList = JSON.parse(data); if (!Array.isArray(productList)) productList = []; } catch (e) { productList = []; }
-                }
-                if (productList.length === 0) {
-                    productList = [
-                        { id: 'SP001', name: 'Móc Khóa Vỏ Sò', picture: 'img/1st-item.jpg', price: 49999 },
-                        { id: 'SP002', name: 'Chuông Gió Vỏ Ốc', picture: 'img/2nd-item.jpg', price: 250000 },
-                        { id: 'SP003', name: 'Vòng Tay Hạt Cườm', picture: 'img/3rd-item.jpg', price: 36180 },
-                        { id: 'SP004', name: 'Nến Thơm Biển', picture: 'img/4th-item.jpg', price: 40000 }
-                    ];
-                    localStorage.setItem('products', JSON.stringify(productList));
-                }
+    function loadProducts() {
+        const data = localStorage.getItem('products');
+        if (data) {
+            try { productList = JSON.parse(data); if (!Array.isArray(productList)) productList = []; } catch(e) { productList = []; }
+        }
+        if (productList.length === 0) {
+            productList = [
+                { id: 'SP001', name: 'Móc Khóa Vỏ Sò', picture: 'img/1st-item.jpg', price: 49999 },
+                { id: 'SP002', name: 'Chuông Gió Vỏ Ốc', picture: 'img/2nd-item.jpg', price: 250000 },
+                { id: 'SP003', name: 'Vòng Tay Hạt Cườm', picture: 'img/3rd-item.jpg', price: 36180 },
+                { id: 'SP004', name: 'Nến Thơm Biển', picture: 'img/4th-item.jpg', price: 40000 }
+            ];
+            localStorage.setItem('products', JSON.stringify(productList));
+        }
+    }
+
+    function formatPrice(price) { return Number(price).toLocaleString('vi-VN') + ' ₫'; }
+
+    function getImageUrl(picture) {
+        if (!picture) return '';
+        if (picture.startsWith('http')) return picture;
+        return '../' + picture; // Admin cần ../ để hiển thị ảnh
+    }
+
+    function displayProducts() {
+        const tbody = $('#productTable tbody'); tbody.empty();
+        $('#productCount').text(productList.length);
+        if (productList.length === 0) {
+            $('#emptyMessage').removeClass('d-none'); $('#productTable').hide(); return;
+        }
+        $('#emptyMessage').addClass('d-none'); $('#productTable').show();
+        $.each(productList, function(i, product) {
+            const imgSrc = product.picture || '';
+            let imgHtml;
+            if (imgSrc) {
+                const fullSrc = getImageUrl(imgSrc);
+                imgHtml = `<img src="${fullSrc}" alt="${product.name}" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';"><div class="img-placeholder bg-light" style="display:none;"><i class="bi bi-image fs-4"></i></div>`;
+            } else {
+                imgHtml = `<div class="img-placeholder bg-light"><i class="bi bi-image fs-4"></i></div>`;
             }
-
-            function formatPrice(price) { return Number(price).toLocaleString('vi-VN') + ' ₫'; }
-
-            function getImageUrl(picture) {
-                if (!picture) return '';
-                if (picture.startsWith('http')) return picture;
-                return '../' + picture; // Admin cần ../ để hiển thị ảnh
-            }
-
-            function displayProducts() {
-                const tbody = $('#productTable tbody'); tbody.empty();
-                $('#productCount').text(productList.length);
-                if (productList.length === 0) {
-                    $('#emptyMessage').removeClass('d-none'); $('#productTable').hide(); return;
-                }
-                $('#emptyMessage').addClass('d-none'); $('#productTable').show();
-                $.each(productList, function (i, product) {
-                    const imgSrc = product.picture || '';
-                    let imgHtml;
-                    if (imgSrc) {
-                        const fullSrc = getImageUrl(imgSrc);
-                        imgHtml = `<img src="${fullSrc}" alt="${product.name}" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';"><div class="img-placeholder bg-light" style="display:none;"><i class="bi bi-image fs-4"></i></div>`;
-                    } else {
-                        imgHtml = `<div class="img-placeholder bg-light"><i class="bi bi-image fs-4"></i></div>`;
-                    }
-                    const row = `<tr>
-                    <td>${i + 1}</td><td class="text-center">${imgHtml}</td>
-                    <td><span class="product-name">${product.name}</span></td>
-                    <td class="price-text">${formatPrice(product.price)}</td>
-                    <td><code>${product.id}</code></td>
-                    <td>
-                        <button class="btn btn-warning btn-sm btn-edit" data-index="${i}"><i class="bi bi-pencil-square"></i> Sửa</button>
-                        <button class="btn btn-danger btn-sm btn-delete ms-1" data-index="${i}"><i class="bi bi-trash"></i> Xóa</button>
-                    </td></tr>`;
-                    tbody.append(row);
-                });
-                if (dataTable) dataTable.destroy();
-                dataTable = $('#productTable').DataTable({ order: [[0, 'asc']], pageLength: 10, language: { url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/vi.json' } });
-            }
-
-            function resetForm() {
-                $('#productId').val('').prop('disabled', false).removeClass('is-invalid');
-                $('#productName').val('').removeClass('is-invalid');
-                $('#productPrice').val('').removeClass('is-invalid');
-                $('#productPicture').val('');
-                $('#editIndex').val('-1');
-                $('#modalTitle').html('<i class="bi bi-plus-circle me-2"></i>Thêm Sản Phẩm Mới');
-                $('#btnSaveProduct').html('<i class="bi bi-check-lg"></i> Lưu');
-                $('#previewContainer').addClass('d-none');
-                $('#previewError').addClass('d-none');
-                editIndex = -1;
-            }
-
-            // Preview ảnh
-            $('#productPicture').on('input', function () {
-                const url = $(this).val().trim();
-                if (url) {
-                    const fullUrl = getImageUrl(url);
-                    $('#imagePreview').attr('src', fullUrl).off('error load').on('error', function () {
-                        $(this).hide(); $('#previewError').removeClass('d-none');
-                    }).on('load', function () {
-                        $(this).show(); $('#previewError').addClass('d-none');
-                    });
-                    $('#previewContainer').removeClass('d-none');
-                } else {
-                    $('#previewContainer').addClass('d-none'); $('#previewError').addClass('d-none');
-                }
-            });
-
-            // Thêm
-            $('#btnAddProduct').click(function () { resetForm(); $('#productModal').modal('show'); });
-            // Sửa
-            $(document).on('click', '.btn-edit', function () {
-                const index = $(this).data('index'); const product = productList[index];
-                editIndex = index; $('#editIndex').val(index);
-                $('#productId').val(product.id).prop('disabled', true);
-                $('#productName').val(product.name); $('#productPrice').val(product.price);
-                $('#productPicture').val(product.picture || '').trigger('input');
-                $('#modalTitle').html('<i class="bi bi-pencil-square me-2"></i>Sửa Sản Phẩm');
-                $('#btnSaveProduct').html('<i class="bi bi-check-lg"></i> Cập Nhật');
-                $('#productModal').modal('show');
-            });
-            // Xóa
-            $(document).on('click', '.btn-delete', function () {
-                const index = $(this).data('index'); const product = productList[index];
-                if (confirm(`Xóa "${product.name}"?`)) {
-                    productList.splice(index, 1);
-                    localStorage.setItem('products', JSON.stringify(productList));
-                    displayProducts();
-                }
-            });
-            // Lưu
-            $('#btnSaveProduct').click(function () {
-                const id = $('#productId').val().trim();
-                const name = $('#productName').val().trim();
-                const price = parseInt($('#productPrice').val());
-                let picture = $('#productPicture').val().trim();
-                // Chuẩn hóa: không lưu '../'
-                if (picture.startsWith('../')) picture = picture.substring(3);
-
-                let isValid = true;
-                if (!id) { $('#productId').addClass('is-invalid'); isValid = false; }
-                if (!name) { $('#productName').addClass('is-invalid'); isValid = false; }
-                if (!price || price <= 0) { $('#productPrice').addClass('is-invalid'); isValid = false; }
-                if (!isValid) return;
-
-                const product = { id, name, price, picture };
-                const currentIndex = $('#editIndex').val();
-                if (currentIndex === '-1') productList.push(product);
-                else productList[parseInt(currentIndex)] = product;
-
-                localStorage.setItem('products', JSON.stringify(productList));
-                displayProducts();
-                $('#productModal').modal('hide');
-                resetForm();
-            });
-
-            // Khởi tạo
-            loadProducts();
-            displayProducts();
+            const row = `<tr>
+                <td>${i+1}</td><td class="text-center">${imgHtml}</td>
+                <td><span class="product-name">${product.name}</span></td>
+                <td class="price-text">${formatPrice(product.price)}</td>
+                <td><code>${product.id}</code></td>
+                <td>
+                    <button class="btn btn-warning btn-sm btn-edit" data-index="${i}"><i class="bi bi-pencil-square"></i> Sửa</button>
+                    <button class="btn btn-danger btn-sm btn-delete ms-1" data-index="${i}"><i class="bi bi-trash"></i> Xóa</button>
+                </td></tr>`;
+            tbody.append(row);
         });
-    </script>
+        if (dataTable) dataTable.destroy();
+        dataTable = $('#productTable').DataTable({ order: [[0, 'asc']], pageLength: 10, language: { url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/vi.json' } });
+    }
+
+    function resetForm() {
+        $('#productId').val('').prop('disabled', false).removeClass('is-invalid');
+        $('#productName').val('').removeClass('is-invalid');
+        $('#productPrice').val('').removeClass('is-invalid');
+        $('#productPicture').val('');
+        $('#editIndex').val('-1');
+        $('#modalTitle').html('<i class="bi bi-plus-circle me-2"></i>Thêm Sản Phẩm Mới');
+        $('#btnSaveProduct').html('<i class="bi bi-check-lg"></i> Lưu');
+        $('#previewContainer').addClass('d-none');
+        $('#previewError').addClass('d-none');
+        editIndex = -1;
+    }
+
+    // Preview ảnh
+    $('#productPicture').on('input', function() {
+        const url = $(this).val().trim();
+        if (url) {
+            const fullUrl = getImageUrl(url);
+            $('#imagePreview').attr('src', fullUrl).off('error load').on('error', function() {
+                $(this).hide(); $('#previewError').removeClass('d-none');
+            }).on('load', function() {
+                $(this).show(); $('#previewError').addClass('d-none');
+            });
+            $('#previewContainer').removeClass('d-none');
+        } else {
+            $('#previewContainer').addClass('d-none'); $('#previewError').addClass('d-none');
+        }
+    });
+
+    // Thêm
+    $('#btnAddProduct').click(function() { resetForm(); $('#productModal').modal('show'); });
+    // Sửa
+    $(document).on('click', '.btn-edit', function() {
+        const index = $(this).data('index'); const product = productList[index];
+        editIndex = index; $('#editIndex').val(index);
+        $('#productId').val(product.id).prop('disabled', true);
+        $('#productName').val(product.name); $('#productPrice').val(product.price);
+        $('#productPicture').val(product.picture || '').trigger('input');
+        $('#modalTitle').html('<i class="bi bi-pencil-square me-2"></i>Sửa Sản Phẩm');
+        $('#btnSaveProduct').html('<i class="bi bi-check-lg"></i> Cập Nhật');
+        $('#productModal').modal('show');
+    });
+    // Xóa
+    $(document).on('click', '.btn-delete', function() {
+        const index = $(this).data('index'); const product = productList[index];
+        if (confirm(`Xóa "${product.name}"?`)) {
+            productList.splice(index, 1);
+            localStorage.setItem('products', JSON.stringify(productList));
+            displayProducts();
+        }
+    });
+    // Lưu
+    $('#btnSaveProduct').click(function() {
+        const id = $('#productId').val().trim();
+        const name = $('#productName').val().trim();
+        const price = parseInt($('#productPrice').val());
+        let picture = $('#productPicture').val().trim();
+        // Chuẩn hóa: không lưu '../'
+        if (picture.startsWith('../')) picture = picture.substring(3);
+
+        let isValid = true;
+        if (!id) { $('#productId').addClass('is-invalid'); isValid = false; }
+        if (!name) { $('#productName').addClass('is-invalid'); isValid = false; }
+        if (!price || price <= 0) { $('#productPrice').addClass('is-invalid'); isValid = false; }
+        if (!isValid) return;
+
+        const product = { id, name, price, picture };
+        const currentIndex = $('#editIndex').val();
+        if (currentIndex === '-1') productList.push(product);
+        else productList[parseInt(currentIndex)] = product;
+
+        localStorage.setItem('products', JSON.stringify(productList));
+        displayProducts();
+        $('#productModal').modal('hide');
+        resetForm();
+    });
+
+    // Khởi tạo
+    loadProducts();
+    displayProducts();
+});
+</script>
 </body>
 </html>

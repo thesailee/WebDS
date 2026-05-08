@@ -18,112 +18,35 @@
     <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 
     <style>
-        body {
-            font-family: 'Open Sans', sans-serif;
-        }
-
+        body { font-family: 'Open Sans', sans-serif; }
         .testimonials-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            background: #fff;
+            position: relative; overflow: hidden; border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); background: #fff;
         }
-
-            .testimonials-item img {
-                height: 250px;
-                object-fit: cover;
-                width: 100%;
-                transition: transform 0.3s;
-            }
-
-            .testimonials-item:hover img {
-                transform: scale(1.1);
-            }
-
-        .text-content {
-            padding: 15px;
+        .testimonials-item img {
+            height: 250px; object-fit: cover; width: 100%;
+            transition: transform 0.3s;
         }
-
-            .text-content h4 {
-                font-size: 18px;
-                margin-bottom: 8px;
-                color: #333;
-                font-weight: 700;
-            }
-
-            .text-content span {
-                color: #e74c3c;
-                font-weight: 700;
-                font-size: 20px;
-            }
-
+        .testimonials-item:hover img { transform: scale(1.1); }
+        .text-content { padding: 15px; }
+        .text-content h4 { font-size: 18px; margin-bottom: 8px; color: #333; font-weight: 700; }
+        .text-content span { color: #e74c3c; font-weight: 700; font-size: 20px; }
         .owl-nav button {
-            background: rgba(255,255,255,0.8) !important;
-            border-radius: 50% !important;
-            width: 40px;
-            height: 40px;
-            font-size: 20px !important;
+            background: rgba(255,255,255,0.8) !important; border-radius: 50% !important;
+            width: 40px; height: 40px; font-size: 20px !important;
         }
-
-        .section-title {
-            text-align: center;
-            color: #fff;
-            margin-bottom: 30px;
-            font-size: 32px;
-            font-weight: 700;
-        }
-
-        .no-product {
-            text-align: center;
-            padding: 50px;
-            color: #fff;
-            font-size: 18px;
-        }
-
-        .badge-price {
-            display: inline-block;
-            background: #e74c3c;
-            color: #fff;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-
-        .success-message {
-            display: none;
-            background: #28a745;
-            color: #fff;
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 15px;
-            text-align: center;
-        }
-
+        .section-title { text-align: center; color: #fff; margin-bottom: 30px; font-size: 32px; font-weight: 700; }
+        .no-product { text-align: center; padding: 50px; color: #fff; font-size: 18px; }
+        .badge-price { display: inline-block; background: #e74c3c; color: #fff; padding: 5px 15px; border-radius: 20px; font-weight: bold; }
+        .success-message { display: none; background: #28a745; color: #fff; padding: 15px; border-radius: 5px; margin-top: 15px; text-align: center; }
         .admin-link {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 999;
-            background: #333;
-            color: #fff;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            transition: all 0.3s;
+            position: fixed; bottom: 20px; right: 20px; z-index: 999;
+            background: #333; color: #fff; width: 50px; height: 50px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 22px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s;
             text-decoration: none;
         }
-
-            .admin-link:hover {
-                background: #e74c3c;
-                transform: scale(1.1);
-                color: #fff;
-            }
+        .admin-link:hover { background: #e74c3c; transform: scale(1.1); color: #fff; }
     </style>
 </head>
 <body>
@@ -188,6 +111,7 @@
     <!-- Our Story Section (giữ nguyên) -->
     <!-- Contact Section (giữ nguyên) -->
     <!-- Footer (giữ nguyên) -->
+
     <!-- Nút Admin -->
     <a href="admin/index.html" class="admin-link" title="Quản lý"><i class="fa fa-cog"></i></a>
 
@@ -229,14 +153,14 @@
                     products = JSON.parse(data);
                     if (!Array.isArray(products) || products.length === 0) useDefault = true;
                 } else useDefault = true;
-            } catch (e) { useDefault = true; }
+            } catch(e) { useDefault = true; }
 
             if (useDefault) {
                 products = defaultProducts;
                 // Không tự động lưu mặc định nữa để tránh ghi đè admin
                 // Nhưng nếu muốn, có thể lưu nếu chưa có gì
                 if (!localStorage.getItem('products')) {
-                    try { localStorage.setItem('products', JSON.stringify(defaultProducts)); } catch (e) { }
+                    try { localStorage.setItem('products', JSON.stringify(defaultProducts)); } catch(e) {}
                 }
             }
             displayProducts(products);
@@ -260,18 +184,18 @@
                 // Nếu là URL tuyệt đối thì giữ nguyên
 
                 var item = `
-                        <div class="item">
-                            <div class="testimonials-item">
-                                <a href="${imageSrc}" data-lightbox="image-1">
-                                    <img src="${imageSrc}" alt="${product.name}"
-                                         onerror="this.src='https://via.placeholder.com/400x300?text=${encodeURIComponent(product.name)}'">
-                                </a>
-                                <div class="text-content">
-                                    <h4>${product.name}</h4>
-                                    <span class="badge-price">${priceFormatted}</span>
-                                </div>
+                    <div class="item">
+                        <div class="testimonials-item">
+                            <a href="${imageSrc}" data-lightbox="image-1">
+                                <img src="${imageSrc}" alt="${product.name}"
+                                     onerror="this.src='https://via.placeholder.com/400x300?text=${encodeURIComponent(product.name)}'">
+                            </a>
+                            <div class="text-content">
+                                <h4>${product.name}</h4>
+                                <span class="badge-price">${priceFormatted}</span>
                             </div>
-                        </div>`;
+                        </div>
+                    </div>`;
                 carousel.append(item);
             });
 
@@ -301,7 +225,7 @@
                     var products = JSON.parse(currentData || '[]');
                     displayProducts(products);
                 }
-            } catch (e) { }
+            } catch(e) {}
         }, 3000);
 
         // ========== XỬ LÝ FORM ĐĂNG KÝ ==========
@@ -315,7 +239,7 @@
                 var registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
                 registrations.push({ name: name, email: email, message: message, date: new Date().toLocaleString('vi-VN') });
                 localStorage.setItem('registrations', JSON.stringify(registrations));
-            } catch (e) { }
+            } catch(e) {}
             $('#successMessage').slideDown(); this.reset();
             setTimeout(function () { $('#successMessage').slideUp(); }, 3000);
         });
@@ -323,7 +247,7 @@
         // Khởi động
         $(document).ready(function () {
             loadProducts();
-            try { lastUpdate = localStorage.getItem('products') || ''; } catch (e) { }
+            try { lastUpdate = localStorage.getItem('products') || ''; } catch(e) {}
         });
     </script>
 </body>
