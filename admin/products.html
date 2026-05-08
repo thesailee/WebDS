@@ -1,206 +1,389 @@
-\<!doctype html>
+<!doctype html>
 <html lang="vi">
 <head>
     <meta charset="utf-8">
     <title>Quản Lý Sản Phẩm - Vũng Tàu Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fonts -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css">
+    <!-- OverlayScrollbars -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/styles/overlayscrollbars.min.css">
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- AdminLTE CSS -->
     <link rel="stylesheet" href="dist/css/adminlte.css">
+    <!-- DataTables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
     <style>
-        .product-img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6; }
-        .img-placeholder { width: 80px; height: 80px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; }
-        .price-text { color: #dc3545; font-weight: bold; font-size: 1.05rem; }
-        .table td { vertical-align: middle; }
-        .product-name { font-weight: 600; color: #333; }
+        .product-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .img-placeholder {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-sm {
+            padding: 4px 10px;
+            font-size: 13px;
+        }
+
+        .price-text {
+            color: #dc3545;
+            font-weight: bold;
+            font-size: 1.05rem;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .product-id {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
     </style>
 </head>
+
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
-<div class="app-wrapper">
-    <!-- Header (giữ nguyên như cũ) -->
-    <!-- Sidebar (giữ nguyên) -->
-    <!-- Main Content -->
-    <main class="app-main">
-        <!-- Breadcrumb -->
-        <div class="app-content-header">...</div>
-        <div class="app-content">
+    <div class="app-wrapper">
+
+        <!-- Header -->
+        <nav class="app-header navbar navbar-expand bg-body">
             <div class="container-fluid">
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h3 class="card-title"><i class="bi bi-basket3 me-2"></i>Tất Cả Sản Phẩm <span class="badge bg-primary ms-2" id="productCount">0</span></h3>
-                        <button type="button" class="btn btn-primary" id="btnAddProduct"><i class="bi bi-plus-circle"></i> Thêm Sản Phẩm</button>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="productTable" class="table table-bordered table-hover align-middle">
-                                <thead class="table-light">
-                                    <tr><th>#</th><th>Hình Ảnh</th><th>Tên Sản Phẩm</th><th>Giá</th><th>Mã SP</th><th>Thao Tác</th></tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
-                        <div id="emptyMessage" class="text-center p-5 text-muted d-none">
-                            <i class="bi bi-inbox" style="font-size: 60px;"></i>
-                            <p class="mt-3 fs-5">Chưa có sản phẩm nào!</p>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" data-lte-toggle="sidebar" href="#" role="button"><i class="bi bi-list"></i></a></li>
+                    <li class="nav-item d-none d-md-block"><a href="index.html" class="nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                    <li class="nav-item d-none d-md-block"><a href="../index.html" target="_blank" class="nav-link"><i class="bi bi-eye"></i> Xem Website</a></li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#" data-lte-toggle="fullscreen"><i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i><i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i></a></li>
+                    <li class="nav-item dropdown user-menu">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-person-circle me-1"></i><span class="d-none d-md-inline">Quản Trị Viên</span></a>
+                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                            <li class="user-header bg-primary text-white p-3 text-center"><i class="bi bi-person-circle" style="font-size: 3rem;"></i><p class="mt-2 mb-0">Admin Vũng Tàu</p></li>
+                            <li class="user-footer p-3 d-flex justify-content-between">
+                                <a href="index.html" class="btn btn-outline-secondary"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                                <a href="../index.html" class="btn btn-outline-primary"><i class="bi bi-eye"></i> Về Website</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Sidebar -->
+        <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+            <div class="sidebar-brand">
+                <a href="index.html" class="brand-link"><img src="dist/assets/img/AdminLTELogo.png" alt="Logo" class="brand-image opacity-75 shadow"><span class="brand-text fw-light">Vũng Tàu Admin</span></a>
+            </div>
+            <div class="sidebar-wrapper">
+                <nav class="mt-2">
+                    <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item"><a href="index.html" class="nav-link"><i class="nav-icon bi bi-house-fill"></i><p>Dashboard</p></a></li>
+                        <li class="nav-item menu-open">
+                            <a href="#" class="nav-link active"><i class="nav-icon bi bi-box-seam-fill"></i><p>Quản Lý <i class="nav-arrow bi bi-chevron-right"></i></p></a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="products.html" class="nav-link active"><i class="nav-icon bi bi-basket3"></i><p>Sản Phẩm</p></a></li>
+                                <li class="nav-item"><a href="registrations.html" class="nav-link"><i class="nav-icon bi bi-people-fill"></i><p>Đăng Ký</p></a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item mt-3"><a href="../index.html" target="_blank" class="nav-link text-info"><i class="nav-icon bi bi-globe2"></i><p>Xem Website</p></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <div class="app-content-header">
+                <div class="container-fluid">
+                    <div class="row"><div class="col-sm-6"><h3 class="mb-0">Danh Sách Sản Phẩm</h3></div><div class="col-sm-6"><ol class="breadcrumb float-sm-end"><li class="breadcrumb-item"><a href="index.html">Dashboard</a></li><li class="breadcrumb-item active">Sản Phẩm</li></ol></div></div>
+                </div>
+            </div>
+            <div class="app-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card mb-4">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h3 class="card-title"><i class="bi bi-basket3 me-2"></i>Tất Cả Sản Phẩm <span class="badge bg-primary ms-2" id="productCount">0</span></h3>
+                                    <button type="button" class="btn btn-primary" id="btnAddProduct"><i class="bi bi-plus-circle"></i> Thêm Sản Phẩm</button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="productTable" class="table table-bordered table-hover align-middle">
+                                            <thead class="table-light"><tr><th style="width: 5%">#</th><th style="width: 12%">Hình Ảnh</th><th style="width: 30%">Tên Sản Phẩm</th><th style="width: 18%">Giá</th><th style="width: 10%">Mã SP</th><th style="width: 25%">Thao Tác</th></tr></thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                    <div id="emptyMessage" class="text-center p-5 text-muted d-none"><i class="bi bi-inbox" style="font-size: 60px;"></i><p class="mt-3 fs-5">Chưa có sản phẩm nào!</p><p>Hãy nhấn "Thêm Sản Phẩm" để bắt đầu quản lý.</p></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </main>
+
+        <footer class="app-footer"><div class="float-end d-none d-sm-inline">Quản lý sản phẩm Vũng Tàu</div><strong>Copyright &copy; 2024 - Vũng Tàu Admin</strong></footer>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white"><h5 class="modal-title" id="modalTitle"><i class="bi bi-plus-circle me-2"></i>Thêm Sản Phẩm Mới</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
+                <div class="modal-body">
+                    <input type="hidden" id="editIndex" value="-1">
+                    <div class="mb-3"><label for="productId" class="form-label fw-bold">Mã Sản Phẩm <span class="text-danger">*</span></label><input type="text" class="form-control" id="productId" placeholder="VD: SP001" required maxlength="20"><div class="invalid-feedback">Vui lòng nhập mã sản phẩm!</div><small class="text-muted">Mã sản phẩm phải là duy nhất</small></div>
+                    <div class="mb-3"><label for="productName" class="form-label fw-bold">Tên Sản Phẩm <span class="text-danger">*</span></label><input type="text" class="form-control" id="productName" placeholder="VD: Móc khóa vỏ sò" required><div class="invalid-feedback">Vui lòng nhập tên sản phẩm!</div></div>
+                    <div class="mb-3"><label for="productPrice" class="form-label fw-bold">Giá (VNĐ) <span class="text-danger">*</span></label><div class="input-group"><input type="number" class="form-control" id="productPrice" placeholder="VD: 50000" min="0" required><span class="input-group-text">₫</span></div><div class="invalid-feedback">Vui lòng nhập giá hợp lệ!</div></div>
+                    <div class="mb-3"><label for="productPicture" class="form-label fw-bold">Link Hình Ảnh</label><input type="text" class="form-control" id="productPicture" placeholder="VD: img/1st-item.jpg"><small class="text-muted"><i class="bi bi-info-circle"></i> Nhập đường dẫn ảnh (vd: <code>img/tenanh.jpg</code>). Có thể dùng URL từ internet.</small></div>
+                    <div class="text-center d-none" id="previewContainer"><label class="form-label fw-bold">Xem trước:</label><div><img id="imagePreview" src="" alt="Preview" class="img-thumbnail" style="max-height: 180px;"></div></div>
+                    <div id="previewError" class="text-danger text-center mt-2 d-none"><i class="bi bi-exclamation-triangle"></i> Không thể tải ảnh. Vui lòng kiểm tra lại đường dẫn!</div>
+                </div>
+                <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Hủy</button><button type="button" class="btn btn-primary" id="btnSaveProduct"><i class="bi bi-check-lg"></i> Lưu</button></div>
+            </div>
         </div>
-    </main>
-    <!-- Footer -->
-    <!-- Modal (giữ nguyên cấu trúc, chỉ sửa script) -->
-</div>
+    </div>
 
-<!-- Scripts -->
-<script src="..."></script> <!-- đầy đủ các script như cũ -->
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <script src="dist/js/adminlte.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
-<script>
-$(function () {
-    // OverlayScrollbars...
-
-    let productList = [];
-    let editIndex = -1;
-    let dataTable = null;
-
-    function loadProducts() {
-        const data = localStorage.getItem('products');
-        if (data) {
-            try { productList = JSON.parse(data); if (!Array.isArray(productList)) productList = []; } catch(e) { productList = []; }
-        }
-        if (productList.length === 0) {
-            productList = [
-                { id: 'SP001', name: 'Móc Khóa Vỏ Sò', picture: 'img/1st-item.jpg', price: 49999 },
-                { id: 'SP002', name: 'Chuông Gió Vỏ Ốc', picture: 'img/2nd-item.jpg', price: 250000 },
-                { id: 'SP003', name: 'Vòng Tay Hạt Cườm', picture: 'img/3rd-item.jpg', price: 36180 },
-                { id: 'SP004', name: 'Nến Thơm Biển', picture: 'img/4th-item.jpg', price: 40000 }
-            ];
-            localStorage.setItem('products', JSON.stringify(productList));
-        }
-    }
-
-    function formatPrice(price) { return Number(price).toLocaleString('vi-VN') + ' ₫'; }
-
-    function getImageUrl(picture) {
-        if (!picture) return '';
-        if (picture.startsWith('http')) return picture;
-        return '../' + picture; // Admin cần ../ để hiển thị ảnh
-    }
-
-    function displayProducts() {
-        const tbody = $('#productTable tbody'); tbody.empty();
-        $('#productCount').text(productList.length);
-        if (productList.length === 0) {
-            $('#emptyMessage').removeClass('d-none'); $('#productTable').hide(); return;
-        }
-        $('#emptyMessage').addClass('d-none'); $('#productTable').show();
-        $.each(productList, function(i, product) {
-            const imgSrc = product.picture || '';
-            let imgHtml;
-            if (imgSrc) {
-                const fullSrc = getImageUrl(imgSrc);
-                imgHtml = `<img src="${fullSrc}" alt="${product.name}" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';"><div class="img-placeholder bg-light" style="display:none;"><i class="bi bi-image fs-4"></i></div>`;
-            } else {
-                imgHtml = `<div class="img-placeholder bg-light"><i class="bi bi-image fs-4"></i></div>`;
-            }
-            const row = `<tr>
-                <td>${i+1}</td><td class="text-center">${imgHtml}</td>
-                <td><span class="product-name">${product.name}</span></td>
-                <td class="price-text">${formatPrice(product.price)}</td>
-                <td><code>${product.id}</code></td>
-                <td>
-                    <button class="btn btn-warning btn-sm btn-edit" data-index="${i}"><i class="bi bi-pencil-square"></i> Sửa</button>
-                    <button class="btn btn-danger btn-sm btn-delete ms-1" data-index="${i}"><i class="bi bi-trash"></i> Xóa</button>
-                </td></tr>`;
-            tbody.append(row);
-        });
-        if (dataTable) dataTable.destroy();
-        dataTable = $('#productTable').DataTable({ order: [[0, 'asc']], pageLength: 10, language: { url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/vi.json' } });
-    }
-
-    function resetForm() {
-        $('#productId').val('').prop('disabled', false).removeClass('is-invalid');
-        $('#productName').val('').removeClass('is-invalid');
-        $('#productPrice').val('').removeClass('is-invalid');
-        $('#productPicture').val('');
-        $('#editIndex').val('-1');
-        $('#modalTitle').html('<i class="bi bi-plus-circle me-2"></i>Thêm Sản Phẩm Mới');
-        $('#btnSaveProduct').html('<i class="bi bi-check-lg"></i> Lưu');
-        $('#previewContainer').addClass('d-none');
-        $('#previewError').addClass('d-none');
-        editIndex = -1;
-    }
-
-    // Preview ảnh
-    $('#productPicture').on('input', function() {
-        const url = $(this).val().trim();
-        if (url) {
-            const fullUrl = getImageUrl(url);
-            $('#imagePreview').attr('src', fullUrl).off('error load').on('error', function() {
-                $(this).hide(); $('#previewError').removeClass('d-none');
-            }).on('load', function() {
-                $(this).show(); $('#previewError').addClass('d-none');
+    <script>
+        (function () {
+            // OverlayScrollbars cho sidebar
+            document.addEventListener('DOMContentLoaded', function () {
+                const sidebarWrapper = document.querySelector('.sidebar-wrapper');
+                if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
+                    OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, { scrollbars: { theme: 'os-theme-light', autoHide: 'leave', clickScroll: true } });
+                }
             });
-            $('#previewContainer').removeClass('d-none');
-        } else {
-            $('#previewContainer').addClass('d-none'); $('#previewError').addClass('d-none');
-        }
-    });
+        })();
 
-    // Thêm
-    $('#btnAddProduct').click(function() { resetForm(); $('#productModal').modal('show'); });
-    // Sửa
-    $(document).on('click', '.btn-edit', function() {
-        const index = $(this).data('index'); const product = productList[index];
-        editIndex = index; $('#editIndex').val(index);
-        $('#productId').val(product.id).prop('disabled', true);
-        $('#productName').val(product.name); $('#productPrice').val(product.price);
-        $('#productPicture').val(product.picture || '').trigger('input');
-        $('#modalTitle').html('<i class="bi bi-pencil-square me-2"></i>Sửa Sản Phẩm');
-        $('#btnSaveProduct').html('<i class="bi bi-check-lg"></i> Cập Nhật');
-        $('#productModal').modal('show');
-    });
-    // Xóa
-    $(document).on('click', '.btn-delete', function() {
-        const index = $(this).data('index'); const product = productList[index];
-        if (confirm(`Xóa "${product.name}"?`)) {
-            productList.splice(index, 1);
-            localStorage.setItem('products', JSON.stringify(productList));
+        $(function () {
+            let productList = [];
+            let editIndex = -1;
+            let dataTable = null;
+
+            // Load dữ liệu
+            function loadProducts() {
+                const data = localStorage.getItem('products');
+                if (data) {
+                    try {
+                        productList = JSON.parse(data);
+                        if (!Array.isArray(productList)) productList = [];
+                    } catch (e) { productList = []; }
+                }
+                if (productList.length === 0) {
+                    productList = [
+                        { id: 'SP001', name: 'Móc Khóa Vỏ Sò', picture: 'img/1st-item.jpg', price: 49999 },
+                        { id: 'SP002', name: 'Chuông Gió Vỏ Ốc', picture: 'img/2nd-item.jpg', price: 250000 },
+                        { id: 'SP003', name: 'Vòng Tay Hạt Cườm', picture: 'img/3rd-item.jpg', price: 36180 },
+                        { id: 'SP004', name: 'Nến Thơm Biển', picture: 'img/4th-item.jpg', price: 40000 }
+                    ];
+                    localStorage.setItem('products', JSON.stringify(productList));
+                }
+            }
+
+            function formatPrice(price) { return Number(price).toLocaleString('vi-VN') + ' ₫'; }
+
+            // Lấy URL ảnh để hiển thị trong admin (cần ../)
+            function getImageUrlForAdmin(picture) {
+                if (!picture) return '';
+                if (picture.startsWith('http://') || picture.startsWith('https://')) return picture;
+                return '../' + picture;
+            }
+
+            function displayProducts() {
+                const tbody = $('#productTable tbody');
+                tbody.empty();
+                $('#productCount').text(productList.length);
+
+                if (productList.length === 0) {
+                    $('#emptyMessage').removeClass('d-none');
+                    $('#productTable').hide();
+                    $('#productCount').hide();
+                    return;
+                }
+
+                $('#emptyMessage').addClass('d-none');
+                $('#productTable').show();
+                $('#productCount').show();
+
+                $.each(productList, function (i, product) {
+                    const imgSrc = product.picture || '';
+                    let imgHtml;
+                    if (imgSrc) {
+                        const fullSrc = getImageUrlForAdmin(imgSrc);
+                        imgHtml = `<img src="${fullSrc}" alt="${product.name}" class="product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';"><div class="img-placeholder bg-light" style="display:none;"><i class="bi bi-image text-muted fs-4"></i></div>`;
+                    } else {
+                        imgHtml = `<div class="img-placeholder bg-light"><i class="bi bi-image text-muted fs-4"></i></div>`;
+                    }
+
+                    const row = `<tr>
+                    <td class="text-center">${i + 1}</td>
+                    <td class="text-center">${imgHtml}</td>
+                    <td><span class="product-name">${product.name}</span></td>
+                    <td class="price-text">${formatPrice(product.price)}</td>
+                    <td><code>${product.id}</code></td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-warning btn-sm btn-edit" data-index="${i}" title="Sửa"><i class="bi bi-pencil-square"></i> Sửa</button>
+                            <button class="btn btn-danger btn-sm btn-delete ms-1" data-index="${i}" title="Xóa"><i class="bi bi-trash"></i> Xóa</button>
+                        </div>
+                    </td>
+                </tr>`;
+                    tbody.append(row);
+                });
+
+                if (dataTable) dataTable.destroy();
+                dataTable = $('#productTable').DataTable({
+                    order: [[0, 'asc']],
+                    pageLength: 10,
+                    lengthMenu: [5, 10, 25, 50],
+                    language: { url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/vi.json' }
+                });
+            }
+
+            function resetForm() {
+                $('#productForm')[0]?.reset();
+                $('#productId').val('').prop('disabled', false).removeClass('is-invalid');
+                $('#productName').val('').removeClass('is-invalid');
+                $('#productPrice').val('').removeClass('is-invalid');
+                $('#productPicture').val('');
+                $('#editIndex').val('-1');
+                $('#modalTitle').html('<i class="bi bi-plus-circle me-2"></i>Thêm Sản Phẩm Mới');
+                $('#btnSaveProduct').html('<i class="bi bi-check-lg"></i> Lưu');
+                $('#previewContainer').addClass('d-none');
+                $('#previewError').addClass('d-none');
+                $('#imagePreview').attr('src', '');
+                editIndex = -1;
+            }
+
+            // Preview ảnh
+            $('#productPicture').on('input', function () {
+                const url = $(this).val().trim();
+                if (url) {
+                    const fullUrl = getImageUrlForAdmin(url); // Dùng cho preview
+                    const $img = $('#imagePreview');
+                    $img.off('error load');
+                    $img.on('error', function () { $(this).hide(); $('#previewError').removeClass('d-none'); });
+                    $img.on('load', function () { $(this).show(); $('#previewError').addClass('d-none'); });
+                    $img.attr('src', fullUrl);
+                    $('#previewContainer').removeClass('d-none');
+                } else {
+                    $('#previewContainer').addClass('d-none');
+                    $('#previewError').addClass('d-none');
+                }
+            });
+
+            // Nút Thêm
+            $('#btnAddProduct').click(function () { resetForm(); $('#productModal').modal('show'); setTimeout(() => $('#productName').focus(), 500); });
+
+            // Nút Sửa
+            $(document).on('click', '.btn-edit', function () {
+                const index = $(this).data('index');
+                const product = productList[index];
+                if (!product) return;
+                editIndex = index;
+                $('#editIndex').val(index);
+                $('#productId').val(product.id).prop('disabled', true);
+                $('#productName').val(product.name);
+                $('#productPrice').val(product.price);
+                $('#productPicture').val(product.picture || '').trigger('input');
+                $('#modalTitle').html('<i class="bi bi-pencil-square me-2"></i>Sửa Sản Phẩm');
+                $('#btnSaveProduct').html('<i class="bi bi-check-lg"></i> Cập Nhật');
+                $('#productModal').modal('show');
+            });
+
+            // Nút Xóa
+            $(document).on('click', '.btn-delete', function () {
+                const index = $(this).data('index');
+                const product = productList[index];
+                if (!product) return;
+                if (confirm(`Bạn có chắc muốn xóa sản phẩm:\n\n"${product.name}" (${product.id})?\n\nThao tác này không thể hoàn tác!`)) {
+                    productList.splice(index, 1);
+                    localStorage.setItem('products', JSON.stringify(productList));
+                    displayProducts();
+                }
+            });
+
+            // Nút Lưu
+            $('#btnSaveProduct').click(function () {
+                const id = $('#productId').val().trim();
+                const name = $('#productName').val().trim();
+                const price = parseInt($('#productPrice').val());
+                let picture = $('#productPicture').val().trim();
+
+                // Chuẩn hóa: loại bỏ ../ ở đầu nếu có để lưu đường dẫn tương đối từ gốc web
+                if (picture.startsWith('../')) {
+                    picture = picture.substring(3);
+                }
+
+                // Validate
+                let isValid = true;
+                if (!id) { $('#productId').addClass('is-invalid'); isValid = false; }
+                if (!name) { $('#productName').addClass('is-invalid'); isValid = false; }
+                if (!price || price <= 0 || isNaN(price)) { $('#productPrice').addClass('is-invalid'); isValid = false; }
+                if (!isValid) return;
+
+                // Kiểm tra trùng mã khi thêm mới
+                const currentIndex = $('#editIndex').val();
+                if (currentIndex === '-1') {
+                    const exists = productList.some(p => p.id === id);
+                    if (exists) { alert(`Mã "${id}" đã tồn tại!`); $('#productId').addClass('is-invalid'); return; }
+                }
+
+                const product = { id, name, price, picture };
+
+                if (currentIndex === '-1') {
+                    productList.push(product);
+                } else {
+                    productList[parseInt(currentIndex)] = product;
+                }
+
+                localStorage.setItem('products', JSON.stringify(productList));
+                displayProducts();
+                $('#productModal').modal('hide');
+                resetForm();
+            });
+
+            // Đóng modal thì reset
+            $('#productModal').on('hidden.bs.modal', function () { resetForm(); });
+
+            // Phím tắt Ctrl+N
+            $(document).on('keydown', function (e) {
+                if (e.ctrlKey && e.key === 'n') { e.preventDefault(); resetForm(); $('#productModal').modal('show'); }
+            });
+
+            // Khởi tạo
+            loadProducts();
             displayProducts();
-        }
-    });
-    // Lưu
-    $('#btnSaveProduct').click(function() {
-        const id = $('#productId').val().trim();
-        const name = $('#productName').val().trim();
-        const price = parseInt($('#productPrice').val());
-        let picture = $('#productPicture').val().trim();
-        // Chuẩn hóa: không lưu '../'
-        if (picture.startsWith('../')) picture = picture.substring(3);
-
-        let isValid = true;
-        if (!id) { $('#productId').addClass('is-invalid'); isValid = false; }
-        if (!name) { $('#productName').addClass('is-invalid'); isValid = false; }
-        if (!price || price <= 0) { $('#productPrice').addClass('is-invalid'); isValid = false; }
-        if (!isValid) return;
-
-        const product = { id, name, price, picture };
-        const currentIndex = $('#editIndex').val();
-        if (currentIndex === '-1') productList.push(product);
-        else productList[parseInt(currentIndex)] = product;
-
-        localStorage.setItem('products', JSON.stringify(productList));
-        displayProducts();
-        $('#productModal').modal('hide');
-        resetForm();
-    });
-
-    // Khởi tạo
-    loadProducts();
-    displayProducts();
-});
-</script>
+        });
+    </script>
 </body>
 </html>
