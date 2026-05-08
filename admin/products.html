@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Quản Lý Sản Phẩm - Vũng Tàu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" />
+
+    <!-- OverlayScrollbars -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/styles/overlayscrollbars.min.css" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <!-- AdminLTE CSS -->
+    <link rel="stylesheet" href="dist/css/adminlte.css" />
+
+    <style>
+        .product-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .btn-sm {
+            padding: 4px 10px;
+            font-size: 13px;
+        }
+
+        .price-text {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <div class="app-wrapper">
+
+        <!-- Header -->
+        <nav class="app-header navbar navbar-expand bg-body">
+            <div class="container-fluid">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                            <i class="bi bi-list"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item d-none d-md-block">
+                        <a href="../index.html" target="_blank" class="nav-link">
+                            <i class="bi bi-eye"></i> Xem Website
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-lte-toggle="fullscreen">
+                            <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
+                            <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown user-menu">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i>
+                            <span class="d-none d-md-inline">Quản Trị Viên</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                            <li class="user-footer p-3">
+                                <a href="../index.html" class="btn btn-default btn-flat float-end">Về Website</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Sidebar -->
+        <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+            <div class="sidebar-brand">
+                <a href="index.html" class="brand-link">
+                    <img src="dist/assets/img/AdminLTELogo.png" alt="Logo" class="brand-image opacity-75 shadow" />
+                    <span class="brand-text fw-light">Vũng Tàu Admin</span>
+                </a>
+            </div>
+            <div class="sidebar-wrapper">
+                <nav class="mt-2">
+                    <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item">
+                            <a href="index.html" class="nav-link">
+                                <i class="nav-icon bi bi-house"></i>
+                                <p>Trang Chủ</p>
+                            </a>
+                        </li>
+                        <li class="nav-item menu-open">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-box-seam-fill"></i>
+                                <p>Danh Mục<i class="nav-arrow bi bi-chevron-right"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="products.html" class="nav-link active">
+                                        <i class="nav-icon bi bi-circle"></i><p>Sản Phẩm</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <div class="app-content-header">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6"><h3 class="mb-0">Danh Sách Sản Phẩm</h3></div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-end">
+                                <li class="breadcrumb-item"><a href="#">Trang Chủ</a></li>
+                                <li class="breadcrumb-item active">Sản Phẩm</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="app-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card mb-4">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h3 class="card-title">Tất Cả Sản Phẩm</h3>
+                                    <button type="button" class="btn btn-primary" id="btnAddProduct">
+                                        <i class="bi bi-plus-circle"></i> Thêm Sản Phẩm
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="productTable" class="table table-bordered table-hover">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th style="width: 5%">#</th>
+                                                    <th style="width: 12%">Hình Ảnh</th>
+                                                    <th style="width: 33%">Tên Sản Phẩm</th>
+                                                    <th style="width: 20%">Giá</th>
+                                                    <th style="width: 30%">Thao Tác</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                    <div id="emptyMessage" class="text-center p-4 text-muted d-none">
+                                        <i class="bi bi-inbox" style="font-size: 40px;"></i>
+                                        <p class="mt-2">Chưa có sản phẩm nào!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="float-end d-none d-sm-inline">Bài Tập Môn Học</div>
+            <strong>Copyright &copy; 2024 - Vũng Tàu Admin</strong>
+        </footer>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalTitle">Thêm Sản Phẩm Mới</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editIndex" value="-1">
+
+                    <div class="mb-3">
+                        <label for="productId" class="form-label">Mã Sản Phẩm <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="productId" placeholder="VD: SP001" required>
+                        <div class="invalid-feedback">Vui lòng nhập mã sản phẩm!</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="productName" class="form-label">Tên Sản Phẩm <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="productName" placeholder="VD: Móc khóa vỏ sò" required>
+                        <div class="invalid-feedback">Vui lòng nhập tên sản phẩm!</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="productPrice" class="form-label">Giá (VNĐ) <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="productPrice" placeholder="VD: 50000" min="0" required>
+                        <div class="invalid-feedback">Vui lòng nhập giá hợp lệ!</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="productPicture" class="form-label">Link Hình Ảnh</label>
+                        <input type="text" class="form-control" id="productPicture" placeholder="VD: img/1st-item.jpg">
+                        <small class="text-muted">Nhập đường dẫn ảnh trong thư mục img/</small>
+                    </div>
+
+                    <div class="text-center d-none" id="previewContainer">
+                        <img id="imagePreview" src="" alt="Preview" class="img-thumbnail" style="max-height: 150px;">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" id="btnSaveProduct">
+                        <i class="bi bi-check-lg"></i> Lưu
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <script src="dist/js/adminlte.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+        // OverlayScrollbars
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebarWrapper = document.querySelector('.sidebar-wrapper');
+            if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
+                OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+                    scrollbars: {
+                        theme: 'os-theme-light',
+                        autoHide: 'leave',
+                        clickScroll: true,
+                    },
+                });
+            }
+        });
+
+        // Quản lý sản phẩm
+        $(function () {
+            var productList = [];
+            var editIndex = -1;
+
+            // Load dữ liệu
+            function loadProducts() {
+                var data = localStorage.getItem('products');
+                if (data) {
+                    productList = JSON.parse(data);
+                } else {
+                    // Sản phẩm mẫu
+                    productList = [
+                        { id: 'SP001', name: 'Móc Khóa Vỏ Sò', picture: 'img/1st-item.jpg', price: 49999 },
+                        { id: 'SP002', name: 'Chuông Gió Vỏ Ốc', picture: 'img/2nd-item.jpg', price: 250000 },
+                        { id: 'SP003', name: 'Vòng Tay Hạt Cườm', picture: 'img/3rd-item.jpg', price: 36180 },
+                        { id: 'SP004', name: 'Nến Thơm Biển', picture: 'img/4th-item.jpg', price: 40000 }
+                    ];
+                    localStorage.setItem('products', JSON.stringify(productList));
+                }
+            }
+
+            // Format tiền
+            function formatPrice(price) {
+                return Number(price).toLocaleString('vi-VN') + ' ₫';
+            }
+
+            // Hiển thị sản phẩm
+            function displayProducts() {
+                var tbody = $('#productTable tbody');
+                tbody.empty();
+
+                if (productList.length === 0) {
+                    $('#emptyMessage').removeClass('d-none');
+                    $('#productTable').hide();
+                } else {
+                    $('#emptyMessage').addClass('d-none');
+                    $('#productTable').show();
+
+                    $.each(productList, function (i, product) {
+                        var imgSrc = product.picture || '';
+                        var imgTag = imgSrc ?
+                            '<img src="../' + imgSrc + '" alt="' + product.name + '" class="product-img" onerror="this.style.display=\'none\'">' :
+                            '<div class="bg-light d-flex align-items-center justify-content-center" style="width:80px;height:80px;border-radius:8px;"><i class="bi bi-image text-muted"></i></div>';
+
+                        var row = `
+                                <tr>
+                                    <td>${i + 1}</td>
+                                    <td class="text-center">${imgTag}</td>
+                                    <td><strong>${product.name}</strong><br><small class="text-muted">Mã: ${product.id}</small></td>
+                                    <td class="price-text">${formatPrice(product.price)}</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm me-1 btn-edit" data-index="${i}">
+                                            <i class="bi bi-pencil-square"></i> Sửa
+                                        </button>
+                                        <button class="btn btn-danger btn-sm btn-delete" data-index="${i}">
+                                            <i class="bi bi-trash"></i> Xóa
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                        tbody.append(row);
+                    });
+                }
+            }
+
+            // Reset form
+            function resetForm() {
+                $('#productForm')[0]?.reset();
+                $('#productId').val('').prop('disabled', false);
+                $('#productName').val('');
+                $('#productPrice').val('');
+                $('#productPicture').val('');
+                $('#editIndex').val('-1');
+                $('#modalTitle').text('Thêm Sản Phẩm Mới');
+                $('#btnSaveProduct').html('<i class="bi bi-check-lg"></i> Lưu');
+                $('#previewContainer').addClass('d-none');
+                $('.form-control').removeClass('is-invalid');
+            }
+
+            // Preview ảnh
+            $('#productPicture').on('input', function () {
+                var url = $(this).val();
+                if (url) {
+                    $('#imagePreview').attr('src', '../' + url);
+                    $('#previewContainer').removeClass('d-none');
+                } else {
+                    $('#previewContainer').addClass('d-none');
+                }
+            });
+
+            // Nút Thêm
+            $('#btnAddProduct').click(function () {
+                resetForm();
+                $('#productModal').modal('show');
+            });
+
+            // Nút Sửa
+            $(document).on('click', '.btn-edit', function () {
+                var index = $(this).data('index');
+                var product = productList[index];
+
+                editIndex = index;
+                $('#editIndex').val(index);
+                $('#productId').val(product.id).prop('disabled', true);
+                $('#productName').val(product.name);
+                $('#productPrice').val(product.price);
+                $('#productPicture').val(product.picture || '').trigger('input');
+
+                $('#modalTitle').text('Sửa Sản Phẩm');
+                $('#btnSaveProduct').html('<i class="bi bi-check-lg"></i> Cập Nhật');
+                $('#productModal').modal('show');
+            });
+
+            // Nút Xóa
+            $(document).on('click', '.btn-delete', function () {
+                var index = $(this).data('index');
+                var product = productList[index];
+
+                if (confirm('Bạn có chắc muốn xóa "' + product.name + '"?')) {
+                    productList.splice(index, 1);
+                    localStorage.setItem('products', JSON.stringify(productList));
+                    displayProducts();
+                }
+            });
+
+            // Nút Lưu
+            $('#btnSaveProduct').click(function () {
+                var id = $('#productId').val().trim();
+                var name = $('#productName').val().trim();
+                var price = $('#productPrice').val();
+                var picture = $('#productPicture').val().trim();
+
+                // Validate
+                var valid = true;
+                if (!id) { $('#productId').addClass('is-invalid'); valid = false; }
+                if (!name) { $('#productName').addClass('is-invalid'); valid = false; }
+                if (!price || price <= 0) { $('#productPrice').addClass('is-invalid'); valid = false; }
+                if (!valid) return;
+
+                var product = { id: id, name: name, price: parseInt(price), picture: picture };
+
+                var currentIndex = $('#editIndex').val();
+                if (currentIndex === '-1') {
+                    // Thêm mới
+                    productList.push(product);
+                } else {
+                    // Cập nhật
+                    productList[parseInt(currentIndex)] = product;
+                }
+
+                localStorage.setItem('products', JSON.stringify(productList));
+                displayProducts();
+                $('#productModal').modal('hide');
+                resetForm();
+            });
+
+            // Khởi tạo
+            loadProducts();
+            displayProducts();
+        });
+    </script>
+</body>
+</html>
